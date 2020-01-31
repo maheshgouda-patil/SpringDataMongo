@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+
+	<!-- Local configurations start-->
+
+	<!-- <mongo:mongo host="HOST" port="27017"/> 
+	<bean id="mongoTemplate" 
+		class="org.springframework.data.mongodb.core.MongoTemplate"> <constructor-arg 
+		ref="mongo" /> <constructor-arg name="databaseName" value="instore_atg" /> 
+		</bean> <context:component-scan base-package="com.tap"/> -->
+	<!-- Local configurations ends -->
+	
+
+	<!-- AWS Stagging configurations start-->
+	<mongo:mongo host="HOST_NAME" port="27017" id="mongo"/>
+	<mongo:db-factory mongo-ref="mongo" id="mongoDbFactory" dbname="Instore_st" username="stuser" password="stpass" />
+ 	
+	<!-- AWS PROD configurations start-->
+	<!-- <mongo:mongo host="54.174.160.161" port="27017" id="mongo"/>
+	<mongo:db-factory mongo-ref="mongo" id="mongoDbFactory" dbname="Instore" username="tapuser" password="tappass" /> -->
+
+
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+	</bean>
+	<!-- AWS Stagging configurations ends -->
+	<context:component-scan base-package="com.mango" />
+
+</beans>
